@@ -37,11 +37,11 @@
   border: #0096f7 1px solid;
 }
 
-.button_num:hover {
+/*.button_num:hover {
   transform: scale(1.1);
   transition: transform 0.1s ease;
   z-index: 1;
-}
+}*/
 
 :root {
   --main-color-num: #ffffff;
@@ -110,10 +110,7 @@
   margin-top: 1.5vw !important;
 }
 
-/* Números */
-
 /* -------------------- Media Querys -------------------- */
-/* -------------------- Números -------------------- */
 @media (max-width: 800px) {
   .button_num {
     width: 4vw;
