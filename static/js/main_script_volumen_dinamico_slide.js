@@ -210,11 +210,13 @@ $(function () {
     const padId = keyCodeMap[keyChar];
     if (padId) {
       playSound(padId);
-      $(`#${padId}`).addClass("key_state_active");
-      clearTimeout(window.myTm);
-      window.myTm = setTimeout(() => {
-        $(`#${padId}`).removeClass("key_state_active");
+      const $pad = $(`#${padId}`);
+      $pad.addClass("key_state_active");
+      clearTimeout($pad.data("tm")); // importante: cada pad tiene su propio timeout
+      const tm = setTimeout(() => {
+        $pad.removeClass("key_state_active");
       }, 100);
+      $pad.data("tm", tm);
     }
   });
 

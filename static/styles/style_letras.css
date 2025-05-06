@@ -61,12 +61,6 @@ body {
   border: #ad2937 1px solid;
 }
 
-/*.button:hover {
-  transform: scale(1.1);
-  transition: transform 0.1s ease;
-  z-index: 1;
-}*/
-
 :root {
   --main-color: #00b7f8;
 }
@@ -316,5 +310,11 @@ body {
     position: relative;
     grid-column: span 3;
     text-align: center;
+  }
+
+  .button:hover {
+    transform: scale(1.1);
+    transition: transform 0.1s ease;
+    z-index: 1;
   }
 }
