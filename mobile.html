@@ -1,257 +1,330 @@
 ﻿<!DOCTYPE html>
 
 <html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>VDM - Virtual Drum Machine</title>
+    <!-- Favicon -->
+    <link
+      href="static/favicon/apple-touch-icon-57x57.png"
+      rel="apple-touch-icon-precomposed"
+      sizes="57x57"
+    />
+    <link
+      href="static/favicon/apple-touch-icon-114x114.png"
+      rel="apple-touch-icon-precomposed"
+      sizes="114x114"
+    />
+    <link
+      href="static/favicon/apple-touch-icon-72x72.png"
+      rel="apple-touch-icon-precomposed"
+      sizes="72x72"
+    />
+    <link
+      href="static/favicon/apple-touch-icon-144x144.png"
+      rel="apple-touch-icon-precomposed"
+      sizes="144x144"
+    />
+    <link
+      href="static/favicon/apple-touch-icon-60x60.png"
+      rel="apple-touch-icon-precomposed"
+      sizes="60x60"
+    />
+    <link
+      href="static/favicon/apple-touch-icon-120x120.png"
+      rel="apple-touch-icon-precomposed"
+      sizes="120x120"
+    />
+    <link
+      href="static/favicon/apple-touch-icon-76x76.png"
+      rel="apple-touch-icon-precomposed"
+      sizes="76x76"
+    />
+    <link
+      href="static/favicon/apple-touch-icon-152x152.png"
+      rel="apple-touch-icon-precomposed"
+      sizes="152x152"
+    />
+    <link
+      href="static/favicon/favicon-196x196.png"
+      rel="icon"
+      sizes="196x196"
+      type="image/png"
+    />
+    <link
+      href="static/favicon/favicon-96x96.png"
+      rel="icon"
+      sizes="96x96"
+      type="image/png"
+    />
+    <link
+      href="static/favicon/favicon-32x32.png"
+      rel="icon"
+      sizes="32x32"
+      type="image/png"
+    />
+    <link
+      href="static/favicon/favicon-16x16.png"
+      rel="icon"
+      sizes="16x16"
+      type="image/png"
+    />
+    <link
+      href="static/favicon/favicon-128.png"
+      rel="icon"
+      sizes="128x128"
+      type="image/png"
+    />
+    <meta content=" " name="application-name" />
+    <meta content="#FFFFFF" name="msapplication-TileColor" />
+    <meta content="mstile-144x144.png" name="msapplication-TileImage" />
+    <meta content="mstile-70x70.png" name="msapplication-square70x70logo" />
+    <meta content="mstile-150x150.png" name="msapplication-square150x150logo" />
+    <meta content="mstile-310x150.png" name="msapplication-wide310x150logo" />
+    <meta content="mstile-310x310.png" name="msapplication-square310x310logo" />
+    <meta
+      content="width=device-width, initial-scale=1, user-scalable=no"
+      name="viewport"
+    />
 
-<head>
-  <meta charset="utf-8" />
-  <meta content="IE=edge" http-equiv="X-UA-Compatible" />
-  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-  <title>VDM - Virtual Drum Machine</title>
-  <!-- Favicon -->
-  <link href="static/favicon/apple-touch-icon-57x57.png" rel="apple-touch-icon-precomposed" sizes="57x57" />
-  <link href="static/favicon/apple-touch-icon-114x114.png" rel="apple-touch-icon-precomposed" sizes="114x114" />
-  <link href="static/favicon/apple-touch-icon-72x72.png" rel="apple-touch-icon-precomposed" sizes="72x72" />
-  <link href="static/favicon/apple-touch-icon-144x144.png" rel="apple-touch-icon-precomposed" sizes="144x144" />
-  <link href="static/favicon/apple-touch-icon-60x60.png" rel="apple-touch-icon-precomposed" sizes="60x60" />
-  <link href="static/favicon/apple-touch-icon-120x120.png" rel="apple-touch-icon-precomposed" sizes="120x120" />
-  <link href="static/favicon/apple-touch-icon-76x76.png" rel="apple-touch-icon-precomposed" sizes="76x76" />
-  <link href="static/favicon/apple-touch-icon-152x152.png" rel="apple-touch-icon-precomposed" sizes="152x152" />
-  <link href="static/favicon/favicon-196x196.png" rel="icon" sizes="196x196" type="image/png" />
-  <link href="static/favicon/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png" />
-  <link href="static/favicon/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png" />
-  <link href="static/favicon/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png" />
-  <link href="static/favicon/favicon-128.png" rel="icon" sizes="128x128" type="image/png" />
-  <meta content=" " name="application-name" />
-  <meta content="#FFFFFF" name="msapplication-TileColor" />
-  <meta content="mstile-144x144.png" name="msapplication-TileImage" />
-  <meta content="mstile-70x70.png" name="msapplication-square70x70logo" />
-  <meta content="mstile-150x150.png" name="msapplication-square150x150logo" />
-  <meta content="mstile-310x150.png" name="msapplication-wide310x150logo" />
-  <meta content="mstile-310x310.png" name="msapplication-square310x310logo" />
-  <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
+    <!-- Favicon -->
+    <!-- CSS -->
 
-  <!-- Favicon -->
-  <!-- CSS -->
+    <link
+      href="./static/styles/contenedor_selector_sonidos.css"
+      rel="stylesheet"
+    />
+    <link href="./static/styles/title_author.css" rel="stylesheet" />
+    <link href="./static/styles/style_letras.css" rel="stylesheet" />
+    <link href="./static/styles/styles_num.css" rel="stylesheet" />
 
-  <link href="./static/styles/nuevo.css" rel="stylesheet"/>
-  <link href="./static/styles/title_author.css" rel="stylesheet" />
-  <link href="./static/styles/style_letras.css" rel="stylesheet" />
-  <link href="./static/styles/styles_num.css" rel="stylesheet" />
+    <link
+      href="./static/styles/volumen_flotante_completo_compacto.css"
+      rel="stylesheet"
+    />
+    <link
+      href="static/styles/selector_sonidos_horizontal.css"
+      rel="stylesheet"
+    />
 
-  <link href="./static/styles/volumen_flotante_completo_compacto.css" rel="stylesheet" />
-  <link href="static/styles/selector_sonidos_horizontal.css" rel="stylesheet" />
+    <link href="./static/styles/reset.css" rel="stylesheet" />
+    <link href="./static/styles/bootstrap.min.css" rel="stylesheet" />
+    <!-- CSS -->
+    <!-- JS -->
+    <script src="./static/js/links.js"></script>
+    <script src="./static/js/isPC.js"></script>
+    <!-- Js -->
+  </head>
 
-  <link href="./static/styles/reset.css" rel="stylesheet" />
-  <link href="./static/styles/bootstrap.min.css" rel="stylesheet" />
-  <!-- CSS -->
-  <!-- JS -->
-  <script src="./static/js/links.js"></script>
-  <script src="./static/js/isPC.js"></script>
-  <!-- Js -->
-</head>
+  <body class="no-seleccionable" oncontextmenu="return false">
+    <!-- Subtítulo -->
+    <div class="sub_titulo_div">
+      <h1 class="sub_titulo"></h1>
+    </div>
+    <!-- Subtítulo -->
+    <div class="contenedor_principal">
+      <!-- Números -->
+      <div class="contenedor_num">
+        <div class="key n1 button_num button_type_sound" id="pad_1">
+          <p class="n1">1</p>
+        </div>
+        <div class="key n2 button_num button_type_sound" id="pad_2">
+          <p class="n2">2</p>
+        </div>
+        <div class="key n3 button_num button_type_sound" id="pad_3">
+          <p class="n3">3</p>
+        </div>
+        <div class="key n4 button_num button_type_sound" id="pad_4">
+          <p class="n4">4</p>
+        </div>
+        <div class="key n5 button_num button_type_sound" id="pad_5">
+          <p class="n5">5</p>
+        </div>
+        <div class="key n6 button_num button_type_sound" id="pad_6">
+          <p class="n6">6</p>
+        </div>
+        <div class="key n7 button_num button_type_sound" id="pad_7">
+          <p class="n7">7</p>
+        </div>
+        <div class="key n8 button_num button_type_sound" id="pad_8">
+          <p class="n8">8</p>
+        </div>
+        <div class="key n9 button_num button_type_sound" id="pad_9">
+          <p class="n9">9</p>
+        </div>
+        <div class="key n0 button_num button_type_sound" id="pad_0">
+          <p class="n0">0</p>
+        </div>
+      </div>
+      <!-- Números -->
+      <!-- Letras -->
+      <div class="contenedor_letras">
+        <div class="key key_q button button_type_sound" id="pad_Q">
+          <!-- <p class="key_q">Snare</p> -->
+          <p class="q">Q</p>
+        </div>
+        <div class="key key_w button button_type_sound" id="pad_W">
+          <!-- <p class="key_w">Lion 1</p> -->
+          <p class="w">W</p>
+        </div>
+        <div class="key key_e button button_type_sound" id="pad_E">
+          <!-- <p class="key_e">Lion 2</p> -->
+          <p class="e">E</p>
+        </div>
+        <div class="key key_r button button_type_sound" id="pad_R">
+          <!-- <p class="key_r">Laser Gun</p> -->
+          <p class="r">R</p>
+        </div>
+      </div>
+      <!-- --------------------------------------------------------- -->
+      <div class="contenedor_letras">
+        <div class="key key_t button button_type_sound" id="pad_T">
+          <!-- <p class="key_t">Clap</p> -->
+          <p class="t">T</p>
+        </div>
+        <div class="key key_y button button_type_sound" id="pad_Y">
+          <!-- <p class="key_y">Conga</p> -->
+          <p class="y">Y</p>
+        </div>
+        <div class="key key_u button button_type_sound" id="pad_U">
+          <!-- <p class="key_u">Low Bongo</p> -->
+          <p class="u">U</p>
+        </div>
+        <div class="key key_i button button_type_sound" id="pad_I">
+          <!-- <p class="key_i">Hi Bongo</p> -->
+          <p class="i">I</p>
+        </div>
+      </div>
+      <!-- --------------------------------------------------------- -->
+      <div class="contenedor_letras">
+        <div class="key key_o button button_type_sound" id="pad_O">
+          <!-- <p class="key_o">Kick Dog</p> -->
+          <p class="o">O</p>
+        </div>
+        <div class="key key_p button button_type_sound" id="pad_P">
+          <!-- <p class="key_p">Kick</p> -->
+          <p class="p">P</p>
+        </div>
+        <div class="key key_a button button_type_sound" id="pad_A">
+          <!-- <p class="key_a">Tom Low</p> -->
+          <p class="a">A</p>
+        </div>
+        <div class="key key_s button button_type_sound" id="pad_S">
+          <!-- <p class="key_s">Conga Low</p> -->
+          <p class="s">S</p>
+        </div>
+      </div>
+      <!-- --------------------------------------------------------- -->
+      <div class="contenedor_letras">
+        <div class="key key_d button button_type_sound" id="pad_D">
+          <!-- <p class="key_d">Snare 1</p> -->
+          <p class="d">D</p>
+        </div>
+        <div class="key key_f button button_type_sound" id="pad_F">
+          <!-- <p class="key_f">Snare 1</p> -->
+          <p class="f">F</p>
+        </div>
+        <div class="key key_g button button_type_sound" id="pad_G">
+          <!-- <p class="key_g">Snare 2</p> -->
+          <p class="g">G</p>
+        </div>
+        <div class="key key_h button button_type_sound" id="pad_H">
+          <!-- <p class="key_h">Snare 2</p> -->
+          <p class="h">H</p>
+        </div>
+      </div>
+      <!-- --------------------------------------------------------- -->
+      <div class="contenedor_letras">
+        <div class="key key_j button button_type_sound" id="pad_J">
+          <!-- <p class="key_j">Snare 3</p> -->
+          <p class="j">J</p>
+        </div>
+        <div class="key key_k button button_type_sound" id="pad_K">
+          <!-- <p class="key_k">Snare 3</p> -->
+          <p class="k">K</p>
+        </div>
+        <div class="key key_l button button_type_sound" id="pad_L">
+          <!-- <p class="key_l">Snare Weird</p> -->
+          <p class="l">L</p>
+        </div>
+        <div class="key key_ñ button button_type_sound" id="pad_Ñ">
+          <!-- <p class="key_ñ">Flauta</p> -->
+          <p class="ñ">Ñ</p>
+        </div>
+      </div>
+      <!-- --------------------------------------------------------- -->
+      <div class="contenedor_letras">
+        <div class="key key_z button button_type_sound" id="pad_Z">
+          <!-- <p class="key_z">Snare Gun 2</p> -->
+          <p class="z">Z</p>
+        </div>
+        <div class="key key_x button button_type_sound" id="pad_X">
+          <!-- <p class="key_x">Snare Gun 1</p> -->
+          <p class="x">X</p>
+        </div>
 
-<body class="no-seleccionable" oncontextmenu="return false">
-  <!-- Subtítulo -->
-  <div class="sub_titulo_div">
-    <h1 class="sub_titulo"></h1>
-  </div>
-  <!-- Subtítulo -->
-  <div class="contenedor_principal">
-    <!-- Números -->
-    <div class="contenedor_num">
-      <div class="key n1 button_num button_type_sound" id="pad_1">
-        <p class="n1">1</p>
+        <div class="key key_c button button_type_sound" id="pad_C">
+          <!-- <p class="key_c">Timbal</p> -->
+          <p class="c">C</p>
+        </div>
+        <div class="key key_v button button_type_sound" id="pad_V">
+          <!-- <p class="key_v">Timbal Rdt</p> -->
+          <p class="v">V</p>
+        </div>
       </div>
-      <div class="key n2 button_num button_type_sound" id="pad_2">
-        <p class="n2">2</p>
+      <!-- --------------------------------------------------------- -->
+      <div class="contenedor_letras">
+        <div class="key key_b button button_type_sound" id="pad_B">
+          <!-- <p class="key_b">R8 Snare</p> -->
+          <p class="b">B</p>
+        </div>
+        <div class="key key_espacio button button_type_sound" id="pad_ESPACIO">
+          <!-- <p class="key_espacio">Kick Thick</p> -->
+          <p class="espacio">__</p>
+        </div>
+        <div class="key key_n button button_type_sound" id="pad_N">
+          <!-- <p class="key_n">L Bongo Rdt</p> -->
+          <p class="n">N</p>
+        </div>
+        <div class="key key_m button button_type_sound" id="pad_M">
+          <!-- <p class="key_m">H Bongo Rdt</p> -->
+          <p class="m">M</p>
+        </div>
       </div>
-      <div class="key n3 button_num button_type_sound" id="pad_3">
-        <p class="n3">3</p>
-      </div>
-      <div class="key n4 button_num button_type_sound" id="pad_4">
-        <p class="n4">4</p>
-      </div>
-      <div class="key n5 button_num button_type_sound" id="pad_5">
-        <p class="n5">5</p>
-      </div>
-      <div class="key n6 button_num button_type_sound" id="pad_6">
-        <p class="n6">6</p>
-      </div>
-      <div class="key n7 button_num button_type_sound" id="pad_7">
-        <p class="n7">7</p>
-      </div>
-      <div class="key n8 button_num button_type_sound" id="pad_8">
-        <p class="n8">8</p>
-      </div>
-      <div class="key n9 button_num button_type_sound" id="pad_9">
-        <p class="n9">9</p>
-      </div>
-      <div class="key n0 button_num button_type_sound" id="pad_0">
-        <p class="n0">0</p>
+      <!-- Letras -->
+    </div>
+
+    <div id="volumen_buttons" style="text-align: center; margin-top: 20px">
+      <button id="toggleVolumen">Ajustar volumen</button>
+      <div id="volumen_controles" class="hidden">
+        <h3 class="VG">Volumen General</h3>
+        <input
+          type="range"
+          id="masterVolume"
+          min="0"
+          max="1"
+          step="0.01"
+          value="0.8"
+        />
+        <h3 class="VI">Volúmenes Individuales</h3>
+        <div id="padVolumes"></div>
       </div>
     </div>
-    <!-- Números -->
-    <!-- Letras -->
-    <div class="contenedor_letras">
-      <div class="key key_q button button_type_sound" id="pad_Q">
-        <!-- <p class="key_q">Snare</p> -->
-        <p class="q">Q</p>
-      </div>
-      <div class="key key_w button button_type_sound" id="pad_W">
-        <!-- <p class="key_w">Lion 1</p> -->
-        <p class="w">W</p>
-      </div>
-      <div class="key key_e button button_type_sound" id="pad_E">
-        <!-- <p class="key_e">Lion 2</p> -->
-        <p class="e">E</p>
-      </div>
-      <div class="key key_r button button_type_sound" id="pad_R">
-        <!-- <p class="key_r">Laser Gun</p> -->
-        <p class="r">R</p>
-      </div>
-    </div>
-    <!-- --------------------------------------------------------- -->
-    <div class="contenedor_letras">
-      <div class="key key_t button button_type_sound" id="pad_T">
-        <!-- <p class="key_t">Clap</p> -->
-        <p class="t">T</p>
-      </div>
-      <div class="key key_y button button_type_sound" id="pad_Y">
-        <!-- <p class="key_y">Conga</p> -->
-        <p class="y">Y</p>
-      </div>
-      <div class="key key_u button button_type_sound" id="pad_U">
-        <!-- <p class="key_u">Low Bongo</p> -->
-        <p class="u">U</p>
-      </div>
-      <div class="key key_i button button_type_sound" id="pad_I">
-        <!-- <p class="key_i">Hi Bongo</p> -->
-        <p class="i">I</p>
-      </div>
-    </div>
-    <!-- --------------------------------------------------------- -->
-    <div class="contenedor_letras">
-      <div class="key key_o button button_type_sound" id="pad_O">
-        <!-- <p class="key_o">Kick Dog</p> -->
-        <p class="o">O</p>
-      </div>
-      <div class="key key_p button button_type_sound" id="pad_P">
-        <!-- <p class="key_p">Kick</p> -->
-        <p class="p">P</p>
-      </div>
-      <div class="key key_a button button_type_sound" id="pad_A">
-        <!-- <p class="key_a">Tom Low</p> -->
-        <p class="a">A</p>
-      </div>
-      <div class="key key_s button button_type_sound" id="pad_S">
-        <!-- <p class="key_s">Conga Low</p> -->
-        <p class="s">S</p>
-      </div>
-    </div>
-    <!-- --------------------------------------------------------- -->
-    <div class="contenedor_letras">
-      <div class="key key_d button button_type_sound" id="pad_D">
-        <!-- <p class="key_d">Snare 1</p> -->
-        <p class="d">D</p>
-      </div>
-      <div class="key key_f button button_type_sound" id="pad_F">
-        <!-- <p class="key_f">Snare 1</p> -->
-        <p class="f">F</p>
-      </div>
-      <div class="key key_g button button_type_sound" id="pad_G">
-        <!-- <p class="key_g">Snare 2</p> -->
-        <p class="g">G</p>
-      </div>
-      <div class="key key_h button button_type_sound" id="pad_H">
-        <!-- <p class="key_h">Snare 2</p> -->
-        <p class="h">H</p>
-      </div>
-    </div>
-    <!-- --------------------------------------------------------- -->
-    <div class="contenedor_letras">
-      <div class="key key_j button button_type_sound" id="pad_J">
-        <!-- <p class="key_j">Snare 3</p> -->
-        <p class="j">J</p>
-      </div>
-      <div class="key key_k button button_type_sound" id="pad_K">
-        <!-- <p class="key_k">Snare 3</p> -->
-        <p class="k">K</p>
-      </div>
-      <div class="key key_l button button_type_sound" id="pad_L">
-        <!-- <p class="key_l">Snare Weird</p> -->
-        <p class="l">L</p>
-      </div>
-      <div class="key key_ñ button button_type_sound" id="pad_Ñ">
-        <!-- <p class="key_ñ">Flauta</p> -->
-        <p class="ñ">Ñ</p>
-      </div>
-    </div>
-    <!-- --------------------------------------------------------- -->
-    <div class="contenedor_letras">
 
-      <div class="key key_z button button_type_sound" id="pad_Z">
-        <!-- <p class="key_z">Snare Gun 2</p> -->
-        <p class="z">Z</p>
-      </div>
-      <div class="key key_x button button_type_sound" id="pad_X">
-        <!-- <p class="key_x">Snare Gun 1</p> -->
-        <p class="x">X</p>
-      </div>
+    <!-- jQuery -->
+    <script src="./static/js/jquery-3.6.0.min.js"></script>
 
-      <div class="key key_c button button_type_sound" id="pad_C">
-        <!-- <p class="key_c">Timbal</p> -->
-        <p class="c">C</p>
-      </div>
-      <div class="key key_v button button_type_sound" id="pad_V">
-        <!-- <p class="key_v">Timbal Rdt</p> -->
-        <p class="v">V</p>
-      </div>
-    </div>
-    <!-- --------------------------------------------------------- -->
-    <div class="contenedor_letras">
-      <div class="key key_b button button_type_sound" id="pad_B">
-        <!-- <p class="key_b">R8 Snare</p> -->
-        <p class="b">B</p>
-      </div>
-      <div class="key key_espacio button button_type_sound" id="pad_ESPACIO">
-        <!-- <p class="key_espacio">Kick Thick</p> -->
-        <p class="espacio">__</p>
-      </div>
-      <div class="key key_n button button_type_sound" id="pad_N">
-        <!-- <p class="key_n">L Bongo Rdt</p> -->
-        <p class="n">N</p>
-      </div>
-      <div class="key key_m button button_type_sound" id="pad_M">
-        <!-- <p class="key_m">H Bongo Rdt</p> -->
-        <p class="m">M</p>
-      </div>
-    </div>
-    <!-- Letras -->
-  </div>
+    <!-- IndexedDB helper - debe estar antes de selectorSonidoNuevo.js -->
+    <script src="./static/js/idb-keyval.iife.js"></script>
 
+    <!-- Script del selector mejorado -->
+    <script src="./static/js/selectorSonido.js"></script>
 
-  <div id="volumen_buttons" style="text-align: center; margin-top: 20px">
-    <button id="toggleVolumen">Ajustar volumen</button>
-    <div id="volumen_controles" class="hidden">
-      <h3>Volumen General</h3>
-      <input type="range" id="masterVolume" min="0" max="1" step="0.01" value="0.8" />
-      <div id="padVolumes"></div>
-    </div>
-  </div>
-
-  <!-- jQuery -->
-  <script src="./static/js/jquery-3.6.0.min.js"></script>
-
-  <!-- IndexedDB helper - debe estar antes de selectorSonidoNuevo.js -->
-  <script src="./static/js/idb-keyval.iife.js"></script>
-
-  <!-- Script del selector mejorado -->
-  <script src="./static/js/selectorSonidoNuevo.js"></script>
-
-  <!-- Los demás scripts -->
-  <script src="./static/js/main_script_volumen_dinamico_debug_slide_ready.js"></script>
-  <script src="./static/js/volumen_control_localStorage_new.js"></script>
-  <script src="./static/js/auto_close_menu.js"></script>
-</body>
- 
+    <!-- Los demás scripts -->
+    <script src="./static/js/main_script_volumen_dinamico_slide.js"></script>
+    <script src="./static/js/volumen_control_localStorage.js"></script>
+    <script src="./static/js/auto_close_menu.js"></script>
+  </body>
 </html>

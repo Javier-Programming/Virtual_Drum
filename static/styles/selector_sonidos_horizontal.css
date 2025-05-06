@@ -16,17 +16,27 @@
   border: none;
   font-size: 16px;
   cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
   display: inline-block;
+  transition: background-color 0.3s;
+
+}
+
+/* Animación botón selector sonidos */
+
+#toggleSelector:active {
+  transform: scale(0.95);
+  background-color: #cc4444;
+  box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+#toggleSelector:hover {
+  background-color: #555;
 }
 
 /* Estilo base para el contenedor del selector */
 #selector_sonidos {
-  position: fixed;
-  top: 10%;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #111;
+  background-color: rgba(20, 20, 20, 0.95);
   color: #fff;
   padding: 20px;
   border-radius: 12px;
@@ -35,6 +45,19 @@
   overflow-y: auto;
   z-index: 9999;
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
+
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+}
+
+.selector-title {
+  text-align: center;
+  margin-bottom: 10px;
+  font-family: Verdana, sans-serif;
+  font-weight: bold;
 }
 
 #selector_sonidos.hidden {
@@ -51,7 +74,7 @@
   padding: 10px;
   border-radius: 10px;
   background-color: #222;
-  box-shadow: 0 0 4px rgba(255,255,255,0.1);
+  box-shadow: 0 0 4px rgba(255, 255, 255, 0.1);
   text-align: center;
   color: white;
 }
@@ -74,7 +97,6 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: rgba(0, 0, 0, 0.95);
     color: white;
     width: 75vw;
     padding: 16px;
@@ -89,7 +111,58 @@
 
   .selector-wrapper {
     flex: 1 1 140px;
-    background: rgba(255,255,255,0.05);
-    box-shadow: 0 0 6px rgba(255,255,255,0.1);
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.1);
+  }
+
+  /* Animación GLOBAL para móvil (por defecto) */
+  #selector_sonidos:not(.hidden) {
+    animation: fadeInMobileSelector 0.3s ease-out;
+  }
+
+  @keyframes fadeInMobileSelector {
+    from {
+      opacity: 0;
+      transform: translate(-50%, -60%);
+    }
+
+    to {
+      opacity: 1;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  .selector-wrapper button:active {
+    transform: scale(0.95);
+    background-color: #ad2937;
+    box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.4);
+  }
+}
+
+@media (min-width: 769px) {
+  #selector_sonidos:not(.hidden) {
+    animation: fadeInDesktop 0.3s ease-out;
+  }
+
+  @keyframes fadeInDesktop {
+    from {
+      opacity: 0;
+      transform: translate(-50%, -60%);
+    }
+
+    to {
+      opacity: 1;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  .selector-wrapper button:hover {
+    background-color: #ad2937;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
   }
 }

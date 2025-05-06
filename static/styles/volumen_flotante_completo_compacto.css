@@ -1,3 +1,11 @@
+.VG {
+  margin-top: -10px !important;
+}
+
+.VI {
+  margin-top: 10px !important;
+  margin-bottom: -10px !important;
+}
 
 #volumen_controles {
   position: relative;
@@ -55,7 +63,7 @@
 }
 
 #padVolumes label input[type="range"] {
-  width: 80px;
+  width: 100px;
   height: 4px;
   margin-top: 4px;
   accent-color: #00b7f8;
@@ -76,8 +84,7 @@
     position: fixed;
     top: 0;
     left: 50;
-    height: 100dvh; /* altura real visible */
-    background-color: rgba(20, 20, 20, 0.95);
+    height: 90dvh;
     overflow-y: auto;
     z-index: 9999;
     padding: 20px;
@@ -85,11 +92,42 @@
     width: 75vw;
     flex-direction: column;
     align-items: center;
+    overflow-x: hidden;
   }
 
   #padVolumes {
     grid-template-columns: repeat(2, 1fr);
     padding: 0 12px;
+    display: grid;
+    box-sizing: border-box;
+  }
+
+  #padVolumes label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 0.85em;
+    color: #ddd;
+    padding: 6px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+  }
+
+  /* Animación GLOBAL para móvil (por defecto) */
+  #volumen_controles:not(.hidden) {
+    animation: fadeInMobile 0.3s ease-out;
+  }
+
+  @keyframes fadeInMobile {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }
 
@@ -100,13 +138,8 @@
     top: 10%;
     left: 50%;
     transform: translateX(-50%);
-    background-color: rgba(20, 20, 20, 0.95);
     padding: 30px 20px;
-    border-radius: 12px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
     z-index: 9999;
-    max-width: 800px;
-    width: 90%;
     animation: fadeIn 0.3s ease-out;
   }
 
@@ -115,7 +148,14 @@
   }
 
   @keyframes fadeIn {
-    from { opacity: 0; transform: translate(-50%, -10px); }
-    to { opacity: 1; transform: translate(-50%, 0); }
+    from {
+      opacity: 0;
+      transform: translate(-50%, -10px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
   }
 }

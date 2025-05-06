@@ -10,7 +10,9 @@ const { set, get, del } = idbKeyval;
 window.customAudioBuffers = {};
 const customAudioBuffers = window.customAudioBuffers;
 
-let customSoundMap = JSON.parse(localStorage.getItem("customPadSounds") || "{}");
+let customSoundMap = JSON.parse(
+  localStorage.getItem("customPadSounds") || "{}"
+);
 
 function updateSelectorVisualState(selectElement, isCustom) {
   if (isCustom) {
@@ -21,11 +23,38 @@ function updateSelectorVisualState(selectElement, isCustom) {
 }
 
 const allSounds = [
-  "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
-  "Snare", "Lion_1", "Lion_2", "LaserGun", "R8Clap", "Conga",
-  "LowBongo", "HiBongo", "Kick_dog", "Digital_Effect_3", "Tom_low",
-  "Conga_Low", "Snare_1", "Snare_2", "Snare_3", "Snare_weird",
-  "Flauta", "Snare_Gun_1", "Snare_Gun_2", "Timbal", "Kick_thick", "R8_Snare"
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "Snare",
+  "Lion_1",
+  "Lion_2",
+  "LaserGun",
+  "R8Clap",
+  "Conga",
+  "LowBongo",
+  "HiBongo",
+  "Kick_dog",
+  "Digital_Effect_3",
+  "Tom_low",
+  "Conga_Low",
+  "Snare_1",
+  "Snare_2",
+  "Snare_3",
+  "Snare_weird",
+  "Flauta",
+  "Snare_Gun_1",
+  "Snare_Gun_2",
+  "Timbal",
+  "Kick_thick",
+  "R8_Snare",
 ];
 
 const padSelectorMap = {
@@ -81,26 +110,33 @@ document.addEventListener("DOMContentLoaded", async () => {
   const container = document.createElement("div");
   container.id = "selector_sonidos";
   container.classList.add("hidden");
-  container.innerHTML = "<h3>Selector de Sonidos</h3><div id='padSelectors'></div>";
+  container.innerHTML =
+    "<h3 class='selector-title'>Selector de Sonidos</h3><div id='padSelectors'></div>";
   document.body.appendChild(container);
 
   const grid = document.getElementById("padSelectors");
 
-  await Promise.all(Object.keys(customSoundMap).map(async (padId) => {
-    const soundKey = customSoundMap[padId];
-    if (soundKey.startsWith("user_")) {
-      const arrayBuffer = await get(soundKey);
-      if (arrayBuffer) {
-        if (arrayBuffer instanceof ArrayBuffer) {
-  const bufferForDecode = arrayBuffer.slice(0);
-      const buffer = await audioCtx.decodeAudioData(bufferForDecode);
-  customAudioBuffers[soundKey] = buffer;
-} else {
-  console.warn("Dato inválido desde IndexedDB para", soundKey, arrayBuffer);
-}
+  await Promise.all(
+    Object.keys(customSoundMap).map(async (padId) => {
+      const soundKey = customSoundMap[padId];
+      if (soundKey.startsWith("user_")) {
+        const arrayBuffer = await get(soundKey);
+        if (arrayBuffer) {
+          if (arrayBuffer instanceof ArrayBuffer) {
+            const bufferForDecode = arrayBuffer.slice(0);
+            const buffer = await audioCtx.decodeAudioData(bufferForDecode);
+            customAudioBuffers[soundKey] = buffer;
+          } else {
+            console.warn(
+              "Dato inválido desde IndexedDB para",
+              soundKey,
+              arrayBuffer
+            );
+          }
+        }
       }
-    }
-  }));
+    })
+  );
 
   Object.keys(padSelectorMap).forEach((padId) => {
     const defaultSound = padSelectorMap[padId];
@@ -179,7 +215,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   document.addEventListener("click", (e) => {
-    if (!container.classList.contains("hidden") && !container.contains(e.target) && e.target !== btn) {
+    if (
+      !container.classList.contains("hidden") &&
+      !container.contains(e.target) &&
+      e.target !== btn
+    ) {
       container.classList.add("hidden");
     }
   });
