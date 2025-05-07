@@ -137,15 +137,3 @@
     font-size: 11px;
   }
 }
-
-@media (max-width: 600px) {
-  .button_num {
-    width: 3vw;
-    height: 3.3vw;
-  }
-
-  .contenedor_num {
-    margin-left: -20px;
-    margin-top: -15px;
-  }
-}
