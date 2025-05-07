@@ -297,8 +297,12 @@
     </div>
 
     <div id="volumen_buttons">
-      <button id="toggleVolumen">Ajustar volumen</button>
-      <button id="toggleSelector" class="volumen-toggle-btn">
+      <button onclick="vibrate()" id="toggleVolumen">Ajustar volumen</button>
+      <button
+        onclick="vibrate()"
+        id="toggleSelector"
+        class="volumen-toggle-btn"
+      >
         Selector sonidos
       </button>
       <div id="volumen_controles" class="hidden">
@@ -335,5 +339,6 @@
     <script src="./static/js/main_script_volumen_dinamico_slide.js"></script>
     <script src="./static/js/volumen_control_localStorage.js"></script>
     <script src="./static/js/auto_close_menu.js"></script>
+    <script src="./static/js/vibration.js"></script>
   </body>
 </html>
