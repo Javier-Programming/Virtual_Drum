@@ -1,5 +1,7 @@
 #volumen_buttons {
   display: flex;
+  text-align: center;
+  margin-top: 20px;
   gap: 12px;
   justify-content: center;
   align-items: center;
@@ -141,6 +143,11 @@
     transform: scale(0.95);
     background-color: #ad2937;
     box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.4);
+  }
+
+  /*Separador de botones Ajustar Volumne y Selector Sonidos*/
+  #volumen_buttons {
+    margin-top: 10px;
   }
 }
 

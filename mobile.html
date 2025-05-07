@@ -296,8 +296,11 @@
       <!-- Letras -->
     </div>
 
-    <div id="volumen_buttons" style="text-align: center; margin-top: 20px">
+    <div id="volumen_buttons">
       <button id="toggleVolumen">Ajustar volumen</button>
+      <button id="toggleSelector" class="volumen-toggle-btn">
+        Selector sonidos
+      </button>
       <div id="volumen_controles" class="hidden">
         <h3 class="VG">Volumen General</h3>
         <input
@@ -311,6 +314,12 @@
         <h3 class="VI">Volúmenes Individuales</h3>
         <div id="padVolumes"></div>
       </div>
+    </div>
+
+    <!-- Selector de Sonidos -->
+    <div id="selector_sonidos" class="hidden">
+      <h3 class="selector-title">Selector de Sonidos</h3>
+      <div id="padSelectors"></div>
     </div>
 
     <!-- jQuery -->

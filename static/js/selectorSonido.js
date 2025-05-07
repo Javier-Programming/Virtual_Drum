@@ -100,21 +100,23 @@ const padSelectorMap = {
 window.padSelectorMap = padSelectorMap;
 
 document.addEventListener("DOMContentLoaded", async () => {
-  const btn = document.createElement("button");
-  btn.id = "toggleSelector";
-  btn.innerHTML = "Selector sonidos";
-  btn.className = "volumen-toggle-btn";
-
-  document.getElementById("volumen_buttons")?.appendChild(btn);
-
-  const container = document.createElement("div");
-  container.id = "selector_sonidos";
-  container.classList.add("hidden");
-  container.innerHTML =
-    "<h3 class='selector-title'>Selector de Sonidos</h3><div id='padSelectors'></div>";
-  document.body.appendChild(container);
-
+  const btn = document.getElementById("toggleSelector"); // Obtener botón Seleccionar Sonidos
   const grid = document.getElementById("padSelectors");
+  const container = document.getElementById("selector_sonidos");
+
+  //const btn = document.createElement("button");
+  //btn.id = "toggleSelector";
+  //btn.innerHTML = "Selector sonidos";
+  //btn.className = "volumen-toggle-btn";
+
+  //document.getElementById("volumen_buttons")?.appendChild(btn);
+
+  //const container = document.createElement("div");
+  //container.id = "selector_sonidos";
+  //container.classList.add("hidden");
+  //container.innerHTML =
+  //"<h3 class='selector-title'>Selector de Sonidos</h3><div id='padSelectors'></div>";
+  //document.body.appendChild(container);
 
   await Promise.all(
     Object.keys(customSoundMap).map(async (padId) => {

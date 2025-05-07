@@ -239,20 +239,11 @@ body {
 
 
 /* -------------------- Media Querys -------------------- */
-/* -------------------- Botones y p -------------------- */
-@media (max-width: 800px) {
+/* -------------------- Botones -------------------- */
+@media (max-width: 600px) {
   body {
     margin: 0;
     padding: 0;
-  }
-
-  .sub_titulo_div {
-    margin-top: -1px;
-  }
-
-  .contenedor_num {
-    margin-top: -15px;
-    padding-bottom: 4px;
   }
 
   .contenedor_letras {

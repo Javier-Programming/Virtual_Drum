@@ -31,7 +31,7 @@
   margin: 0 0.8vw 0.8vw 0;
   text-align: center;
   transition: all 0.2s ease 0s;
-  width: 4.2vw;
+  width: 4.3vw;
   height: 4.2vw;
   border-color: #0096f7;
   border: #0096f7 1px solid;
@@ -111,11 +111,17 @@
 }
 
 /* -------------------- Media Querys -------------------- */
-@media (max-width: 800px) {
+@media (max-width: 600px) {
   .button_num {
-    width: 4vw;
+    width: 3.4vw;
     height: 3.9vw;
     padding: 2vw 2.3vw;
+  }
+
+  .contenedor_num {
+    margin-left: 5px;
+    margin-top: -15px;
+    padding-bottom: 4px;
   }
 
   .n1,
@@ -129,5 +135,17 @@
   .n9,
   .n0 {
     font-size: 11px;
+  }
+}
+
+@media (max-width: 600px) {
+  .button_num {
+    width: 3vw;
+    height: 3.3vw;
+  }
+
+  .contenedor_num {
+    margin-left: -20px;
+    margin-top: -15px;
   }
 }

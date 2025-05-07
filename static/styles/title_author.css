@@ -66,6 +66,12 @@
   }
 }
 
+@media (max-width: 800px) {
+  .sub_titulo_div {
+    margin-top: 5px;
+  }
+}
+
 @media (min-width: 800px) {
   .sub_titulo_div {
     margin-top: 40px;
