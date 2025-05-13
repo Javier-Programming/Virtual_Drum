@@ -24,7 +24,7 @@
   const currentPath = window.location.pathname;
 
   if (isMobileScreen && !currentPath.endsWith("/mobile")) {
-    window.location.replace("/mobile");
+    window.location.replace("/mobile"); // 👈 sin .html
   } else if (!isMobileScreen && currentPath !== "/") {
     window.location.replace("/");
   }
@@ -34,7 +34,7 @@
     const pageNow = window.location.pathname;
 
     if (isNowMobile && !pageNow.endsWith("/mobile")) {
-      window.location.replace("/mobile");
+      window.location.replace("/mobile"); // 👈 sin .html
     } else if (!isNowMobile && pageNow !== "/") {
       window.location.replace("/");
     }
