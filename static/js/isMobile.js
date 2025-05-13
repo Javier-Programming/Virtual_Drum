@@ -1,20 +1,42 @@
+// (function () {
+//   const getCurrentPage = () => window.location.pathname.split("/").pop();
+//   const isMobileScreen = () => window.innerWidth <= 600;
+
+//   const redirectIfNeeded = () => {
+//     const currentPage = getCurrentPage();
+
+//     if (isMobileScreen() && currentPage !== "/mobile.html") {
+//       window.location.replace("/mobile.html");
+//     } else if (!isMobileScreen() && currentPage !== "") {
+//       window.location.replace("/");
+//     }
+//   };
+
+//   redirectIfNeeded();
+
+//   window.addEventListener("resize", () => {
+//     redirectIfNeeded();
+//   });
+// })();
+
 (function () {
-  const getCurrentPage = () => window.location.pathname.split("/").pop();
-  const isMobileScreen = () => window.innerWidth <= 600;
+  const isMobileScreen = window.innerWidth <= 600;
+  const currentPath = window.location.pathname;
 
-  const redirectIfNeeded = () => {
-    const currentPage = getCurrentPage();
-
-    if (isMobileScreen() && currentPage !== "/mobile.html") {
-      window.location.replace("/mobile.html");
-    } else if (!isMobileScreen() && currentPage !== "") {
-      window.location.replace("/");
-    }
-  };
-
-  redirectIfNeeded();
+  if (isMobileScreen && !currentPath.endsWith("/mobile")) {
+    window.location.replace("/mobile");
+  } else if (!isMobileScreen && currentPath !== "/") {
+    window.location.replace("/");
+  }
 
   window.addEventListener("resize", () => {
-    redirectIfNeeded();
+    const isNowMobile = window.innerWidth <= 600;
+    const pageNow = window.location.pathname;
+
+    if (isNowMobile && !pageNow.endsWith("/mobile")) {
+      window.location.replace("/mobile");
+    } else if (!isNowMobile && pageNow !== "/") {
+      window.location.replace("/");
+    }
   });
 })();
