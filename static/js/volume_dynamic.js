@@ -1,22 +1,48 @@
+/**
+ * volume_dynamic.js
+ * ======================================================================
+ * Control principal de la batería virtual (drumpad) usando Web Audio API.
+ * ======================================================================
+ *
+ * Funcionalidades:
+ *  - Inicializa el contexto de audio y precarga sonidos por defecto.
+ *  - Reproduce sonidos con control de volumen individual y maestro.
+ *  - Integra sonidos personalizados cargados desde IndexedDB (vía selector_sonidos.js).
+ *  - Gestiona interacción táctil y de teclado (tanto móvil como escritorio).
+ *  - Soporta gestos táctiles tipo “slide to trigger” en pads numéricos.
+ *
+ * Requisitos:
+ *  - jQuery
+ */
+
 $(function () {
   "use strict";
 
+  // --------------------------------------------------------
+  // Detección de entorno
+  // --------------------------------------------------------
   const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+  // Contexto de audio y buffers
   let audioCtx;
-  const audioBuffers = {};
-  window.audioBuffers = audioBuffers;
+  const audioBuffers = {}; // Contiene los sonidos por defecto decodificados
+  window.audioBuffers = audioBuffers; // Exportado globalmente
 
-  if (typeof masterVolume === "undefined") {
-    window.masterVolume = 0.8;
-  }
-  if (typeof padVolumeMap === "undefined") {
-    window.padVolumeMap = {};
-  }
+  // Valores globales de volumen
+  if (typeof masterVolume === "undefined") window.masterVolume = 0.8; // Volumen maestro
+  if (typeof padVolumeMap === "undefined") window.padVolumeMap = {}; // Volumen por pad
 
+  // --------------------------------------------------------
+  // Inicialización del sistema de audio
+  // --------------------------------------------------------
+  /**
+   * Inicializa el contexto de audio y carga los sonidos base (por defecto).
+   * Decodifica archivos .ogg y los almacena en memoria.
+   */
   async function initAudio() {
     if (!audioCtx) {
       audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      window.audioCtx = audioCtx;
+      window.audioCtx = audioCtx; // Referencia global
     }
 
     const soundNames = [
@@ -54,34 +80,37 @@ $(function () {
       "R8_Snare",
     ];
 
+    // Carga y decodifica todos los sonidos por defecto
     await Promise.all(
       soundNames.map(async (name) => {
         try {
           const response = await fetch(`./static/sounds/${name}.ogg`);
-          if (!response.ok) {
-            console.error(
-              "[ERROR] No se pudo cargar",
-              name,
-              response.statusText
-            );
-            return;
-          }
+          if (!response.ok) return; // Ignora si no existe el archivo
+
           const arrayBuffer = await response.arrayBuffer();
           const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
           audioBuffers[name] = audioBuffer;
-          console.log("[DEBUG] Sonido cargado:", name);
         } catch (e) {
-          console.error("[ERROR] Falló al cargar", name, e);
+          // En caso de error, simplemente se omite el sonido
         }
       })
     );
-    console.log("[DEBUG] Audio buffers cargados.");
   }
 
+  // --------------------------------------------------------
+  // Obtención de buffer de audio (por defecto o personalizado)
+  // --------------------------------------------------------
+  /**
+   * Devuelve el AudioBuffer correspondiente a un pad.
+   * Si existen sonidos personalizados, los prioriza.
+   * @param {string} padId - ID del pad (por ejemplo, "pad_Q")
+   * @returns {AudioBuffer|null}
+   */
   function getAudioBufferForPad(padId) {
     if (typeof getCustomPadSound === "function") {
       const sound = getCustomPadSound(padId);
       if (sound && sound.startsWith("user_")) {
+        // Devuelve el buffer de IndexedDB (sonido personalizado)
         return window.customAudioBuffers
           ? window.customAudioBuffers[sound]
           : null;
@@ -89,72 +118,72 @@ $(function () {
         return audioBuffers[sound] || null;
       }
     } else {
+      // Si no existe selector_sonidos, usa el sonido base
       return audioBuffers[padId] || null;
     }
   }
 
+  // --------------------------------------------------------
+  // Reproducción de sonidos
+  // --------------------------------------------------------
+  /**
+   * Reproduce un sonido asociado a un pad.
+   * Aplica el volumen maestro y el volumen individual del pad.
+   * @param {string} padId - ID del pad
+   */
   function playSound(padId) {
     const soundName =
       typeof getCustomPadSound === "function"
         ? getCustomPadSound(padId)
         : padId;
-    if (!soundName) return;
-    if (!audioCtx) {
-      console.warn("[WARN] AudioContext no inicializado.");
-      return;
-    }
+    if (!soundName || !audioCtx) return;
 
     const buffer = getAudioBufferForPad(padId);
-    if (!buffer) {
-      console.warn("[WARN] No se encontró buffer para", soundName);
-      return;
-    }
+    if (!buffer) return;
 
+    // Calcula volumen final
     const individual = padVolumeMap[padId] ?? 1;
-    console.log("[DEBUG] padId:", padId);
-    console.log("[DEBUG] individual volume:", individual);
-    console.log("[DEBUG] master volume:", masterVolume);
     const finalVolume = Math.min(1.0, individual * masterVolume);
-    console.log("[DEBUG] final volume:", finalVolume);
-    console.log("Volumen aplicado:", finalVolume);
 
+    // Nodo de ganancia (control de volumen)
     const gainNode = audioCtx.createGain();
     gainNode.gain.setValueAtTime(finalVolume, audioCtx.currentTime);
     gainNode.connect(audioCtx.destination);
 
+    // Nodo fuente de audio
     const source = audioCtx.createBufferSource();
     source.buffer = buffer;
     source.connect(gainNode);
     source.start(0);
   }
 
+  // Inicializa los sonidos al cargar
   initAudio();
 
+  // --------------------------------------------------------
+  // Asociar eventos a cada pad (click/touch)
+  // --------------------------------------------------------
   const padIds = Object.keys(
     typeof padSelectorMap !== "undefined" ? padSelectorMap : {}
   );
 
-  // Asociamos eventos táctiles y de mouse con respuesta inmediata
   padIds.forEach((padId) => {
     const $pad = $(`#${padId}`);
 
+    /**
+     * Ejecuta la acción principal del pad (reproducir + animación)
+     */
     const trigger = (e) => {
       if (e.cancelable) e.preventDefault();
       playSound(padId);
 
       $pad.addClass("key_state_active");
       clearTimeout($pad.data("tm"));
-      const tm = setTimeout(() => {
-        $pad.removeClass("key_state_active");
-      }, 100);
+      const tm = setTimeout(() => $pad.removeClass("key_state_active"), 100);
       $pad.data("tm", tm);
     };
 
-    // Esta lógica evita que un pad dispare el sonido varias veces en móviles.
-    // En dispositivos táctiles, tanto "touchstart" como "mousedown" pueden activarse,
-    // causando reproducción múltiple del sonido.
-    // Usamos "touchstart" exclusivamente en móviles, y "mousedown" en escritorio.
-    // Además, usamos e.preventDefault() para cancelar el click fantasma que algunos navegadores generan después del touch.
+    // En móviles solo usamos touchstart (evita doble disparo con click)
     if (isMobile) {
       $pad.on("touchstart", function (e) {
         if (e.cancelable) e.preventDefault();
@@ -165,8 +194,13 @@ $(function () {
     }
   });
 
+  // --------------------------------------------------------
+  // Control por teclado
+  // --------------------------------------------------------
   $(document.body).on("keypress", function (e) {
     const keyChar = e.key.toUpperCase();
+
+    // Mapeo entre tecla y pad correspondiente
     const keyCodeMap = {
       1: "pad_1",
       2: "pad_2",
@@ -207,22 +241,27 @@ $(function () {
       N: "pad_N",
       M: "pad_M",
     };
+
     const padId = keyCodeMap[keyChar];
     if (padId) {
       playSound(padId);
       const $pad = $(`#${padId}`);
       $pad.addClass("key_state_active");
-      clearTimeout($pad.data("tm")); // importante: cada pad tiene su propio timeout
-      const tm = setTimeout(() => {
-        $pad.removeClass("key_state_active");
-      }, 100);
+      clearTimeout($pad.data("tm"));
+      const tm = setTimeout(() => $pad.removeClass("key_state_active"), 100);
       $pad.data("tm", tm);
     }
   });
 
-  // Soporte para "slide to trigger" en pads numéricos (móvil)
+  // --------------------------------------------------------
+  // “Slide to trigger” (modo táctil en pads numéricos)
+  // --------------------------------------------------------
   let lastTouchedPad = null;
 
+  /**
+   * Activa un pad solo si es diferente al último tocado (para evitar repetición).
+   * @param {HTMLElement} padElement - Elemento HTML del pad
+   */
   function triggerPad(padElement) {
     const padId = padElement.id;
     if (padId !== lastTouchedPad) {
@@ -230,18 +269,21 @@ $(function () {
       playSound(padId);
       $(padElement).addClass("key_state_active");
       clearTimeout($(padElement).data("tm"));
-      const tm = setTimeout(() => {
-        $(padElement).removeClass("key_state_active");
-      }, 100);
+      const tm = setTimeout(
+        () => $(padElement).removeClass("key_state_active"),
+        100
+      );
       $(padElement).data("tm", tm);
     }
   }
 
-  $(".button_num").on("touchstart", function (e) {
+  // Al iniciar el toque en un pad numérico
+  $(".button_num").on("touchstart", function () {
     lastTouchedPad = null;
     triggerPad(this);
   });
 
+  // Al deslizar el dedo sobre los pads numéricos
   $(".contenedor_num").on("touchmove", function (e) {
     const touch = e.originalEvent.touches[0];
     const target = document.elementFromPoint(touch.clientX, touch.clientY);
@@ -250,6 +292,7 @@ $(function () {
     }
   });
 
+  // Al terminar el gesto
   $(".contenedor_num").on("touchend", () => {
     lastTouchedPad = null;
   });

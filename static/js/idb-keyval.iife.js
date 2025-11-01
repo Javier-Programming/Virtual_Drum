@@ -1,10 +1,17 @@
 var idbKeyval = (() => {
-  const store = () => (new Promise((resolve, reject) => {
-    const openreq = indexedDB.open('keyval-store', 1);
-    openreq.onerror = () => reject(openreq.error);
-    openreq.onsuccess = () => resolve(openreq.result.transaction('keyval', 'readwrite').objectStore('keyval'));
-    openreq.onupgradeneeded = () => openreq.result.createObjectStore('keyval');
-  }));
+  const store = () =>
+    new Promise((resolve, reject) => {
+      const openreq = indexedDB.open("keyval-store", 1);
+      openreq.onerror = () => reject(openreq.error);
+      openreq.onsuccess = () =>
+        resolve(
+          openreq.result
+            .transaction("keyval", "readwrite")
+            .objectStore("keyval")
+        );
+      openreq.onupgradeneeded = () =>
+        openreq.result.createObjectStore("keyval");
+    });
   return {
     get: async (key) => (await store()).get(key),
     set: async (key, val) => (await store()).put(val, key),
@@ -21,6 +28,6 @@ var idbKeyval = (() => {
           req.result.continue();
         };
       });
-    }
+    },
   };
 })();

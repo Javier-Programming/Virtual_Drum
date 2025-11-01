@@ -1,19 +1,39 @@
-// Versión mejorada de selector_sonidos_con_archivos_0k.js
-// Incluye: guardado en IndexedDB, visual feedback, y botón de restablecer
+/**
+ * sound_selector.js
+ * ===============================================================================
+ * Permite al usuario personalizar los sonidos de cada pad de una batería virtual.
+ * ===============================================================================
+ * 
+ * Funcionalidades:
+ *  - Cargar sonidos personalizados desde archivos locales (MP3, WAV, OGG).
+ *  - Guardar los sonidos personalizados en IndexedDB (persistentes).
+ *  - Recordar la configuración en localStorage.
+ *  - Mostrar feedback visual cuando un pad tiene un sonido personalizado.
+ *  - Restablecer sonidos a su valor por defecto.
+ *
+ * Requisitos:
+ *  - idb-keyval (https://github.com/jakearchibald/idb-keyval)
+ *  - CDN sugerido:
+ *  - <script src="https://cdn.jsdelivr.net/npm/idb-keyval@3.0.0/dist/idb-keyval-iife.js"></script>
+ */
 
-// Requiere: idb-keyval (https://github.com/jakearchibald/idb-keyval)
-// Puedes incluirlo desde CDN:
-// <script src="https://cdn.jsdelivr.net/npm/idb-keyval@6/dist/idb-keyval.iife.js"></script>
-
+// Importación de funciones desde idb-keyval (IndexedDB simplificada)
 const { set, get, del } = idbKeyval;
 
+// Mapa global de buffers de audio personalizados (decodificados en AudioBuffer)
 window.customAudioBuffers = {};
 const customAudioBuffers = window.customAudioBuffers;
 
+// Carga el mapa de sonidos personalizados desde localStorage
 let customSoundMap = JSON.parse(
   localStorage.getItem("customPadSounds") || "{}"
 );
 
+/**
+ * Actualiza el estado visual del selector dependiendo si usa un sonido personalizado.
+ * @param {HTMLSelectElement} selectElement - Elemento select del pad.
+ * @param {boolean} isCustom - Indica si el sonido es personalizado.
+ */
 function updateSelectorVisualState(selectElement, isCustom) {
   if (isCustom) {
     selectElement.classList.add("custom-loaded");
@@ -22,6 +42,9 @@ function updateSelectorVisualState(selectElement, isCustom) {
   }
 }
 
+/**
+ * Lista completa de sonidos disponibles por defecto.
+ */
 const allSounds = [
   "1",
   "2",
@@ -57,6 +80,9 @@ const allSounds = [
   "R8_Snare",
 ];
 
+/**
+ * Mapa que relaciona cada pad (tecla o botón) con su sonido por defecto.
+ */
 const padSelectorMap = {
   pad_1: "1",
   pad_2: "2",
@@ -99,59 +125,50 @@ const padSelectorMap = {
 };
 window.padSelectorMap = padSelectorMap;
 
+/**
+ * Inicialización principal del selector de sonidos.
+ */
 document.addEventListener("DOMContentLoaded", async () => {
-  const btn = document.getElementById("toggleSelector"); // Obtener botón Seleccionar Sonidos
-  const grid = document.getElementById("padSelectors");
-  const container = document.getElementById("selector_sonidos");
+  const btn = document.getElementById("toggleSelector"); // Botón para mostrar/ocultar el panel
+  const grid = document.getElementById("padSelectors"); // Contenedor de selectores
+  const container = document.getElementById("selector_sonidos"); // Panel principal
 
-  //const btn = document.createElement("button");
-  //btn.id = "toggleSelector";
-  //btn.innerHTML = "Selector sonidos";
-  //btn.className = "volumen-toggle-btn";
-
-  //document.getElementById("volumen_buttons")?.appendChild(btn);
-
-  //const container = document.createElement("div");
-  //container.id = "selector_sonidos";
-  //container.classList.add("hidden");
-  //container.innerHTML =
-  //"<h3 class='selector-title'>Selector de Sonidos</h3><div id='padSelectors'></div>";
-  //document.body.appendChild(container);
-
+  // --- 1 Cargar los sonidos personalizados desde IndexedDB ---
   await Promise.all(
     Object.keys(customSoundMap).map(async (padId) => {
       const soundKey = customSoundMap[padId];
       if (soundKey.startsWith("user_")) {
         const arrayBuffer = await get(soundKey);
-        if (arrayBuffer) {
-          if (arrayBuffer instanceof ArrayBuffer) {
-            const bufferForDecode = arrayBuffer.slice(0);
-            const buffer = await audioCtx.decodeAudioData(bufferForDecode);
-            customAudioBuffers[soundKey] = buffer;
-          } else {
-            console.warn(
-              "Dato inválido desde IndexedDB para",
-              soundKey,
-              arrayBuffer
-            );
-          }
+        if (arrayBuffer instanceof ArrayBuffer) {
+          const buffer = await audioCtx.decodeAudioData(arrayBuffer.slice(0));
+          customAudioBuffers[soundKey] = buffer;
+        } else {
+          // console.warn(
+          //   "Dato inválido desde IndexedDB para",
+          //   soundKey,
+          //   arrayBuffer
+          // );
         }
       }
     })
   );
 
+  // --- 2 Crear dinámicamente el selector de sonidos por cada pad ---
   Object.keys(padSelectorMap).forEach((padId) => {
     const defaultSound = padSelectorMap[padId];
     const currentSound = customSoundMap[padId] || defaultSound;
 
+    // Contenedor principal del selector
     const wrapper = document.createElement("label");
     wrapper.classList.add("selector-wrapper");
 
+    // Título del pad (por ejemplo "pad_Q")
     const title = document.createElement("span");
     title.textContent = padId;
     title.style.display = "block";
     wrapper.appendChild(title);
 
+    // --- Selector de sonidos predefinidos ---
     const select = document.createElement("select");
     allSounds.forEach((sound) => {
       const opt = document.createElement("option");
@@ -160,15 +177,16 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (sound === currentSound) opt.selected = true;
       select.appendChild(opt);
     });
-
     updateSelectorVisualState(select, currentSound.startsWith("user_"));
 
+    // Al cambiar el valor del selector, se guarda en localStorage
     select.addEventListener("change", () => {
       customSoundMap[padId] = select.value;
       localStorage.setItem("customPadSounds", JSON.stringify(customSoundMap));
       updateSelectorVisualState(select, false);
     });
 
+    // --- Input para cargar un archivo de sonido personalizado ---
     const fileInput = document.createElement("input");
     fileInput.type = "file";
     fileInput.accept = ".wav,.mp3,.ogg";
@@ -178,17 +196,21 @@ document.addEventListener("DOMContentLoaded", async () => {
       const file = event.target.files[0];
       if (!file) return;
       const arrayBuffer = await file.arrayBuffer();
+      // const attachedArrayBuffer = arrayBuffer.slice(0); // Copia completa
       const buffer = await audioCtx.decodeAudioData(arrayBuffer);
       const key = `user_${padId}`;
 
+      // Guardar en memoria y en IndexedDB
       customAudioBuffers[key] = buffer;
       customSoundMap[padId] = key;
       await set(key, arrayBuffer);
 
+      // Guardar referencia en localStorage
       localStorage.setItem("customPadSounds", JSON.stringify(customSoundMap));
       updateSelectorVisualState(select, true);
     });
 
+    // --- Botón para restablecer sonido por defecto ---
     const resetBtn = document.createElement("button");
     resetBtn.textContent = "Restablecer";
     resetBtn.style.marginTop = "6px";
@@ -197,25 +219,30 @@ document.addEventListener("DOMContentLoaded", async () => {
       const key = customSoundMap[padId];
       if (key && key.startsWith("user_")) {
         delete customAudioBuffers[key];
-        await del(key);
+        await del(key); // Elimina de IndexedDB
       }
       delete customSoundMap[padId];
       localStorage.setItem("customPadSounds", JSON.stringify(customSoundMap));
 
+      // Restaurar el sonido por defecto
       select.value = defaultSound;
       updateSelectorVisualState(select, false);
+      fileInput.value = ""; // Limpiar el nombre del archivo seleccionado en el input
     });
 
+    // Añadir todos los elementos al contenedor
     wrapper.appendChild(select);
     wrapper.appendChild(fileInput);
     wrapper.appendChild(resetBtn);
     grid.appendChild(wrapper);
   });
 
+  // --- 3 Mostrar/Ocultar el panel de selectores ---
   btn.addEventListener("click", () => {
     container.classList.toggle("hidden");
   });
 
+  // Cerrar el panel si se hace clic fuera
   document.addEventListener("click", (e) => {
     if (
       !container.classList.contains("hidden") &&
@@ -227,10 +254,20 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 });
 
+/**
+ * Devuelve el nombre o clave del sonido actual de un pad.
+ * @param {string} padId - ID del pad (por ejemplo "pad_Q").
+ * @returns {string} Nombre del sonido (por defecto o personalizado).
+ */
 function getCustomPadSound(padId) {
   return customSoundMap[padId] || padSelectorMap[padId];
 }
 
+/**
+ * Obtiene el AudioBuffer asociado a un pad.
+ * @param {string} padId - ID del pad.
+ * @returns {AudioBuffer|null} El buffer del sonido (personalizado o por defecto).
+ */
 function getAudioBufferForPad(padId) {
   const sound = getCustomPadSound(padId);
   if (sound.startsWith("user_")) {

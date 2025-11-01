@@ -1,6 +1,0 @@
-{
-  "routes": [
-    { "src": "/mobile", "dest": "/mobile.html" },
-    { "src": "/", "dest": "/index.html" }
-  ]
-}

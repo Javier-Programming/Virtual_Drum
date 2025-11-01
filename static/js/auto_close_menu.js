@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", function () {
   const panel = document.getElementById("volumen_controles");
   const toggle = document.getElementById("toggleVolumen");
