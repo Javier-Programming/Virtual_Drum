@@ -96,3 +96,4 @@ El archivo `selector_de_sonidos.js`:
    ```bash
    git clone [https://github.com/tuusuario/bateria-virtual.git](https://github.com/Javier-Programming/Virtual_Drum.git)
    cd Virtual_Drum-main
+2. Ejecutar desde Live Server
